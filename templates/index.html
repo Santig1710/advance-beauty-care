@@ -223,9 +223,16 @@
                     <label class="form-label fw-semibold text-secondary small text-uppercase">Nombre del Centro / Profesional</label>
                     <input type="text" id="cli-nombre" class="form-control" placeholder="Ej: Estética Bella Vita">
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold text-secondary small text-uppercase">Dirección y Localidad (Ej: Pilar)</label>
-                    <input type="text" id="cli-direccion" class="form-control" placeholder="Ej: Av. Las Magnolias 1234, Pilar">
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label fw-semibold text-secondary small text-uppercase">Dirección y Localidad</label>
+                        <input type="text" id="cli-direccion" class="form-control" placeholder="Ej: Av. Las Magnolias 1234, Pilar">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold text-secondary small text-uppercase">Distancia Aprox. (KM)</label>
+                        <input type="number" id="cli-km" class="form-control" value="0" min="0" onchange="calcularTotal()" placeholder="Ej: 15">
+                        <small class="text-muted" style="font-size: 0.7rem;">Base de {{ config.limite_km_base }} km sin cargo</small>
+                    </div>
                 </div>
                 <div class="mb-4">
                     <label class="form-label fw-semibold text-secondary small text-uppercase">Teléfono / WhatsApp de contacto</label>
@@ -280,6 +287,12 @@
                         <span class="text-muted" id="label-tipo-jornada">Alquiler de equipo:</span>
                         <span class="fw-semibold text-dark" id="val-precio-equipo">$0</span>
                     </div>
+                    
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span class="text-muted">Cargos por traslado (<span id="txt-km-info">0</span> km):</span>
+                        <span class="fw-semibold text-dark" id="val-precio-km">$0</span>
+                    </div>
+
                     <div class="d-flex justify-content-between mb-2 align-items-center small">
                         <div>
                             <span class="text-muted">¿Incluir Operadora profesional?</span>
@@ -296,7 +309,7 @@
                     </div>
                 </div>
 
-                <p class="text-muted mb-4 small">Selecciona tu modalidad horaria preferida. Al hacer clic en "Reservar", se enviará el detalle por WhatsApp y podrás elegir la fecha exacta en Calendly.</p>
+                <p class="text-muted mb-4 small">Selecciona tu modalidad horaria preferida. Al hacer clic en "Reservar", se enviará el detalle completo por WhatsApp y podrás elegir la fecha exacta en Calendly.</p>
                 
                 <!-- Contenedor dinámico de opciones según equipo -->
                 <div id="contenedor-opciones-turnos">
@@ -312,11 +325,14 @@
     </div>
 
     <script>
-        let cliente = { nombre: '', direccion: '', telefono: '' };
+        let cliente = { nombre: '', direccion: '', telefono: '', km: 0 };
         let equipoActual = { id: '', nombre: '', precioMedio: 0, precioCompleto: 0 };
         let jornadaSeleccionada = { tipo: '', precio: 0, horario: '', urlCalendly: '' };
+        
         const whatsappDestino = "{{ config.whatsapp_phone }}";
         const precioOperadora = {{ config.operadora_precio }};
+        const limiteKmBase = {{ config.limite_km_base }};
+        const precioKmExtra = {{ config.precio_km_extra }};
 
         function goStep(step) {
             document.getElementById('step-1').classList.toggle('d-none', step !== 1);
@@ -329,6 +345,7 @@
             cliente.nombre = document.getElementById('cli-nombre').value.trim();
             cliente.direccion = document.getElementById('cli-direccion').value.trim();
             cliente.telefono = document.getElementById('cli-telefono').value.trim();
+            cliente.km = parseFloat(document.getElementById('cli-km').value) || 0;
 
             if (!cliente.nombre || !cliente.direccion || !cliente.telefono) {
                 alert('Por favor, completa todos los campos para continuar.');
@@ -337,67 +354,43 @@
             goStep(2);
         }
 
+        function calcularCostoKm() {
+            let kmExtra = Math.max(0, cliente.km - limiteKmBase);
+            return kmExtra * precioKmExtra;
+        }
+
         function seleccionarEquipo(id, nombre, precioMedio, precioCompleto) {
             equipoActual = { id, nombre, precioMedio, precioCompleto };
             document.getElementById('eq-seleccionado-nombre').innerText = nombre;
 
-            let htmlOpciones = '';
-            
-            if (id.toLowerCase().includes('hifu')) {
-                htmlOpciones = `
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Jornada Completa (8 hs)</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+            let htmlOpciones = `
+                <div class="turno-opcion">
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">Jornada Completa (8 hs)</h6>
+                        <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
                     </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Mañana</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                </div>
+                <div class="turno-opcion">
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">Media Jornada - Mañana</h6>
+                        <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
                     </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Tarde</h6>
-                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                </div>
+                <div class="turno-opcion">
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">Media Jornada - Tarde</h6>
+                        <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
                     </div>
-                `;
-            } else {
-                htmlOpciones = `
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Jornada Completa (8 hs)</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Mañana</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Tarde</h6>
-                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
-                        </div>
-                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
-                `;
-            }
+                    <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                </div>
+            `;
 
             document.getElementById('contenedor-opciones-turnos').innerHTML = htmlOpciones;
             prepararReserva('Jornada Completa (08:00 a 16:00 hs)', precioCompleto, '');
             goStep(3);
 
-            // Asignar eventos a los botones generados
             setTimeout(() => {
                 const botones = document.querySelectorAll('#contenedor-opciones-turnos button');
                 const urls = id.toLowerCase().includes('hifu') ? 
@@ -431,28 +424,32 @@
         }
 
         function calcularTotal() {
-            let total = jornadaSeleccionada.precio;
+            // Actualizar km en tiempo real por si el usuario lo edita en el input del paso 1
+            cliente.km = parseFloat(document.getElementById('cli-km').value) || 0;
+            
+            let costoKm = calcularCostoKm();
             let incluyeOperadora = document.getElementById('check-operadora').checked;
+            let total = jornadaSeleccionada.precio + costoKm + (incluyeOperadora ? precioOperadora : 0);
 
-            if (incluyeOperadora) {
-                total += precioOperadora;
-            }
-
+            document.getElementById('txt-km-info').innerText = cliente.km;
+            document.getElementById('val-precio-km').innerText = costoKm > 0 ? `+$${costoKm.toLocaleString('es-AR')}` : '$0 (Sin cargo)';
             document.getElementById('val-subtotal').innerText = `$${total.toLocaleString('es-AR')}`;
         }
 
         function reservarFinal(calendlyUrl, horario, precioBase) {
+            let costoKm = calcularCostoKm();
             let incluyeOperadora = document.getElementById('check-operadora').checked;
-            let totalFinal = precioBase + (incluyeOperadora ? precioOperadora : 0);
+            let totalFinal = precioBase + costoKm + (incluyeOperadora ? precioOperadora : 0);
 
             const mensaje = `*¡Nueva Intención de Reserva!* 📋\n\n` +
                             `🏢 *Centro / Estética:* ${cliente.nombre}\n` +
-                            `📍 *Dirección / Lugar:* ${cliente.direccion}\n` +
+                            `📍 *Dirección:* ${cliente.direccion} (${cliente.km} km)\n` +
                             `📞 *Teléfono:* ${cliente.telefono}\n` +
                             `⚙ *Equipo:* ${equipoActual.nombre}\n` +
                             `⏰ *Horario:* ${horario}\n` +
-                            `👩‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí (Incluida)' : 'No'}\n` +
-                            `💰 *Subtotal Estimado:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
+                            `🚗 *Traslado (${cliente.km} km):* ${costoKm > 0 ? '$' + costoKm.toLocaleString('es-AR') : 'Sin cargo'}\n` +
+                            `👩‍‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí ($' + precioOperadora.toLocaleString('es-AR') + ')' : 'No'}\n` +
+                            `💰 *Subtotal Total:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
                             `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._`;
 
             const urlWp = `https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensaje)}`;

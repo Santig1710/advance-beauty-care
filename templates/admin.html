@@ -31,8 +31,8 @@
         <div class="card card-admin p-4 p-md-5">
             <form action="/admin/actualizar" method="POST">
                 
-                <!-- CONFIGURACIÓN GENERAL -->
-                <h4 class="fw-bold mb-3 text-secondary"><i class="bi bi-gear-fill"></i> Configuración General y Costos</h4>
+                <!-- CONFIGURACIÓN GENERAL Y KILÓMETROS -->
+                <h4 class="fw-bold mb-3 text-secondary"><i class="bi bi-gear-fill"></i> Configuración General y Logística</h4>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -47,12 +47,12 @@
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold">Precio KM Extra ($):</label>
-                        <input type="number" step="any" name="precio_km_extra" class="form-control" value="{{ config.precio_km_extra }}" required>
+                        <label class="form-label fw-semibold">Límite KM Base (Sin cargo):</label>
+                        <input type="number" step="any" name="limite_km_base" class="form-control" value="{{ config.limite_km_base }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold">Límite KM Base:</label>
-                        <input type="number" step="any" name="limite_km_base" class="form-control" value="{{ config.limite_km_base }}" required>
+                        <label class="form-label fw-semibold">Precio KM Extra ($):</label>
+                        <input type="number" step="any" name="precio_km_extra" class="form-control" value="{{ config.precio_km_extra }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-semibold">Precio Operadora ($):</label>
@@ -68,7 +68,6 @@
                 {% for eq in equipos %}
                 <div class="p-4 mb-4 border rounded-3 bg-light position-relative">
                     
-                    <!-- Switch de Activo / Inactivo -->
                     <div class="form-check form-switch position-absolute top-0 end-0 mt-3 me-3">
                         <input class="form-check-input" type="checkbox" role="switch" id="activo_{{ eq.id }}" name="activo_{{ eq.id }}" {% if eq.activo %}checked{% endif %}>
                         <label class="form-check-label fw-semibold small text-muted" for="activo_{{ eq.id }}">Visible en Web</label>
