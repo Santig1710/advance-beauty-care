@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advance Beauty Care | Alquiler de Aparatología Estética</title>
     <!-- Google Fonts & Bootstrap 5 -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
@@ -13,48 +13,73 @@
         :root {
             --primary-color: #a86f63;
             --primary-hover: #8c584d;
-            --accent-gold: #d4af37;
-            --bg-light: #fdfbf7;
+            --accent-gold: #c5a880;
+            --bg-light: #fbf9f6;
             --card-bg: #ffffff;
-            --text-main: #2c2c2c;
-            --text-muted: #6c757d;
+            --text-main: #2b2b2b;
+            --text-muted: #737373;
+            --border-soft: #f0eae6;
         }
 
         body {
             background-color: var(--bg-light);
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, h4, .brand-title {
             font-family: 'Playfair Display', serif;
         }
 
-        /* Hero Banner */
+        /* Hero Banner Estético */
         .hero-header {
-            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #242424 0%, #151515 100%);
             color: #ffffff;
-            padding: 3.5rem 1rem 3rem 1rem;
+            padding: 4rem 1rem 3.5rem 1rem;
             text-align: center;
-            border-bottom: 4px solid var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
             position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        /* Contenedor del Logo */
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.2rem auto;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            border: 2px solid var(--accent-gold);
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero-header h1 {
-            color: #f7e7e2;
-            letter-spacing: 2px;
-            font-size: 2.8rem;
+            color: #fcf6f4;
+            letter-spacing: 3px;
+            font-size: 2.5rem;
+            font-weight: 600;
         }
 
         .hero-badge {
-            background: linear-gradient(45deg, var(--primary-color), #c28779);
-            color: white;
-            font-size: 0.85rem;
+            background: rgba(168, 111, 99, 0.2);
+            color: #e6c5bf;
+            border: 1px solid rgba(168, 111, 99, 0.4);
+            font-size: 0.75rem;
             padding: 0.4rem 1.2rem;
             border-radius: 30px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 1rem;
@@ -62,58 +87,60 @@
 
         /* Container & Cards */
         .main-card {
-            border-radius: 20px;
+            border-radius: 24px;
             border: none;
-            box-shadow: 0 10px 30px rgba(168, 111, 99, 0.08);
+            box-shadow: 0 15px 40px rgba(168, 111, 99, 0.06);
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .main-card { padding: 3.5rem; }
         }
 
         .step-title {
             color: var(--primary-color);
-            font-weight: 700;
-            font-size: 1.5rem;
+            font-weight: 600;
+            font-size: 1.4rem;
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid #f4ece8;
+            border-bottom: 1.5px solid var(--border-soft);
             padding-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         /* Equipment Cards */
         .eq-card {
-            border: 2px solid #f0e6e2;
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1.5px solid var(--border-soft);
+            border-radius: 18px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
             background: #ffffff;
-            position: relative;
-            overflow: hidden;
         }
 
         .eq-card:hover {
             border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(168, 111, 99, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(168, 111, 99, 0.1);
         }
 
         .price-tag {
-            background-color: #fdf5f3;
+            background-color: #faf5f3;
             color: var(--primary-color);
             font-weight: 700;
-            padding: 0.4rem 0.9ln;
-            border-radius: 12px;
-            font-size: 1rem;
-            border: 1px solid #f3ded7;
+            padding: 0.4rem 0.9rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border: 1px solid #f2e3df;
         }
 
         /* Subtotal Box */
         .resumen-box {
-            background: #f9f4f1;
-            border: 1.5px solid #e8deda;
-            border-radius: 14px;
-            padding: 20px;
+            background: #fbf7f5;
+            border: 1.5px solid #ebdcd6;
+            border-radius: 16px;
+            padding: 22px;
             margin-bottom: 25px;
         }
 
@@ -123,10 +150,10 @@
             color: white;
             border: none;
             font-weight: 600;
-            padding: 0.8rem 1.8rem;
+            padding: 0.85rem 1.8rem;
             border-radius: 12px;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(168, 111, 99, 0.25);
+            box-shadow: 0 4px 15px rgba(168, 111, 99, 0.2);
             text-decoration: none;
             display: inline-block;
             text-align: center;
@@ -137,58 +164,74 @@
             background: linear-gradient(135deg, var(--primary-hover), #73453b);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(168, 111, 99, 0.35);
+            box-shadow: 0 6px 20px rgba(168, 111, 99, 0.3);
         }
 
         .turno-opcion {
             background: #ffffff;
-            border: 1.5px solid #f0e6e2;
-            border-radius: 12px;
-            padding: 15px;
+            border: 1.5px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 18px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.2s;
+        }
+
+        .turno-opcion:hover {
+            border-color: #d1b8b2;
+            background: #fcfbfa;
         }
 
         .form-control {
-            border-radius: 10px;
-            border: 1.5px solid #e2d7d3;
-            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1.5px solid #e6deda;
+            padding: 0.8rem 1.1rem;
+            background-color: #fcfbfa;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(168, 111, 99, 0.1);
+            background-color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Principal -->
+    <!-- Header Principal con Logo -->
     <div class="hero-header">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo Advance Beauty Care">
+        </div>
         <span class="hero-badge"><i class="bi bi-stars"></i> Alquiler Premium de Aparatología</span>
-        <h1 class="fw-bold mb-2">ADVANCE BEAUTY CARE</h1>
-        <p class="mb-0 text-white-50 fs-5">Llevamos la última tecnología estética a tu centro profesional</p>
+        <h1 class="brand-title mb-2">ADVANCE BEAUTY CARE</h1>
+        <p class="mb-0 text-white-50 fs-6" style="letter-spacing: 0.5px;">Tecnología estética de vanguardia para profesionales</p>
     </div>
 
     <!-- Contenedor Principal -->
-    <div class="container my-5" style="max-width: 900px;">
-        <div class="card main-card p-4 p-md-5">
+    <div class="container my-5" style="max-width: 880px;">
+        <div class="card main-card">
             
             <!-- PASO 1: Datos del Centro / Profesional -->
             <div id="step-1">
                 <h4 class="step-title"><i class="bi bi-building-fill"></i> Paso 1: Datos de tu Centro o Estética</h4>
-                <p class="text-muted mb-4">Ingresa tus datos de contacto para que podamos identificarte al recibir tu reserva.</p>
+                <p class="text-muted mb-4 small">Completa tus datos profesionales para iniciar la gestión de tu reserva.</p>
                 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Nombre del Centro de Estética o Profesional:</label>
-                    <input type="text" id="cli-nombre" class="form-control form-control-lg" placeholder="Ej: Estética Bella Vita">
+                    <label class="form-label fw-semibold text-secondary small text-uppercase">Nombre del Centro / Profesional</label>
+                    <input type="text" id="cli-nombre" class="form-control" placeholder="Ej: Estética Bella Vita">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Dirección exacta y Localidad (Ej: Pilar):</label>
-                    <input type="text" id="cli-direccion" class="form-control form-control-lg" placeholder="Ej: Av. Las Magnolias 1234, Pilar">
+                    <label class="form-label fw-semibold text-secondary small text-uppercase">Dirección y Localidad (Ej: Pilar)</label>
+                    <input type="text" id="cli-direccion" class="form-control" placeholder="Ej: Av. Las Magnolias 1234, Pilar">
                 </div>
                 <div class="mb-4">
-                    <label class="form-label fw-semibold">Teléfono de contacto / WhatsApp:</label>
-                    <input type="tel" id="cli-telefono" class="form-control form-control-lg" placeholder="Ej: 11 1234-5678">
+                    <label class="form-label fw-semibold text-secondary small text-uppercase">Teléfono / WhatsApp de contacto</label>
+                    <input type="tel" id="cli-telefono" class="form-control" placeholder="Ej: 11 1234-5678">
                 </div>
-                <button class="btn btn-custom w-100" onclick="guardarDatosCliente()">
+                <button class="btn btn-custom w-100 py-3" onclick="guardarDatosCliente()">
                     Continuar a Selección de Equipos <i class="bi bi-arrow-right-short"></i>
                 </button>
             </div>
@@ -202,15 +245,15 @@
                         <div class="eq-card h-100 d-flex flex-column justify-content-between">
                             <div>
                                 <h5 class="fw-bold text-dark mb-2">{{ eq.nombre }}</h5>
-                                <p class="small text-muted mb-3" style="line-height: 1.5;">{{ eq.descripcion }}</p>
+                                <p class="small text-muted mb-4" style="line-height: 1.6;">{{ eq.descripcion }}</p>
                             </div>
                             <div>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="small text-secondary">Media Jornada (4 hs):</span>
+                                    <span class="small text-secondary fw-medium">Media Jornada (4 hs):</span>
                                     <span class="price-tag">${{ "{:,.0f}".format(eq.precio_medio_dia) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <span class="small text-secondary">Jornada Completa (8 hs):</span>
+                                    <span class="small text-secondary fw-medium">Jornada Completa (8 hs):</span>
                                     <span class="price-tag">${{ "{:,.0f}".format(eq.precio_dia_completo) }}</span>
                                 </div>
                                 <button class="btn btn-custom w-100" onclick="seleccionarEquipo('{{ eq.id }}', '{{ eq.nombre }}', {{ eq.precio_medio_dia }}, {{ eq.precio_dia_completo }})">
@@ -222,46 +265,46 @@
                     {% endfor %}
                 </div>
                 <div class="mt-4">
-                    <button class="btn btn-outline-secondary px-4" onclick="goStep(1)"><i class="bi bi-chevron-left"></i> Volver a Datos</button>
+                    <button class="btn btn-outline-secondary px-4 py-2 rounded-3" onclick="goStep(1)"><i class="bi bi-chevron-left"></i> Volver</button>
                 </div>
             </div>
 
             <!-- PASO 3: Selección de Turnos, Subtotal y Redirección a Calendly -->
             <div id="step-3" class="d-none">
-                <h4 class="step-title"><i class="bi bi-calendar-check-fill"></i> Paso 3: Turnos y Subtotal para <span id="eq-seleccionado-nombre" style="color: #a86f63;"></span></h4>
+                <h4 class="step-title"><i class="bi bi-calendar-check-fill"></i> Paso 3: Turnos y Subtotal para <span id="eq-seleccionado-nombre" style="color: var(--primary-color);"></span></h4>
                 
                 <!-- Caja de Desglose y Subtotal -->
                 <div class="resumen-box">
-                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-receipt"></i> Desglose de Cargos</h5>
-                    <div class="d-flex justify-content-between mb-2">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-receipt"></i> Resumen de Inversión</h6>
+                    <div class="d-flex justify-content-between mb-2 small">
                         <span class="text-muted" id="label-tipo-jornada">Alquiler de equipo:</span>
-                        <span class="fw-semibold" id="val-precio-equipo">$0</span>
+                        <span class="fw-semibold text-dark" id="val-precio-equipo">$0</span>
                     </div>
-                    <div class="d-flex justify-content-between mb-2 align-items-center">
+                    <div class="d-flex justify-content-between mb-2 align-items-center small">
                         <div>
                             <span class="text-muted">¿Incluir Operadora profesional?</span>
-                            <small class="d-block text-secondary">(${{"{:,.0f}".format(config.operadora_precio)}})</small>
+                            <span class="d-block text-secondary" style="font-size: 0.75rem;">(Valor: ${{"{:,.0f}".format(config.operadora_precio)}})</span>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="check-operadora" onchange="calcularTotal()">
+                            <input class="form-check-input" type="checkbox" role="switch" id="check-operadora" onchange="calcularTotal()" style="cursor: pointer; transform: scale(1.1);">
                         </div>
                     </div>
-                    <hr>
+                    <hr style="border-color: #ebdcd6;">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="fw-bold fs-5 text-dark">Subtotal Estimado:</span>
+                        <span class="fw-bold text-dark">Subtotal Estimado:</span>
                         <span class="fw-bold fs-4" style="color: var(--primary-color);" id="val-subtotal">$0</span>
                     </div>
                 </div>
 
-                <p class="text-muted mb-4">Elige la modalidad horaria deseada. Al hacer clic en "Reservar", enviaremos este resumen por WhatsApp y te redirigiremos a Calendly.</p>
+                <p class="text-muted mb-4 small">Selecciona tu modalidad horaria preferida. Al hacer clic en "Reservar", se enviará el detalle por WhatsApp y podrás elegir la fecha exacta en Calendly.</p>
                 
                 <!-- Contenedor dinámico de opciones según equipo -->
                 <div id="contenedor-opciones-turnos">
-                    <!-- Las opciones se inyectan dinámicamente -->
+                    <!-- Inyectado por JS -->
                 </div>
 
                 <div class="mt-4">
-                    <button class="btn btn-outline-secondary px-4" onclick="goStep(2)"><i class="bi bi-chevron-left"></i> Volver a Equipos</button>
+                    <button class="btn btn-outline-secondary px-4 py-2 rounded-3" onclick="goStep(2)"><i class="bi bi-chevron-left"></i> Volver a Equipos</button>
                 </div>
             </div>
 
@@ -279,6 +322,7 @@
             document.getElementById('step-1').classList.toggle('d-none', step !== 1);
             document.getElementById('step-2').classList.toggle('d-none', step !== 2);
             document.getElementById('step-3').classList.toggle('d-none', step !== 3);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function guardarDatosCliente() {
@@ -287,7 +331,7 @@
             cliente.telefono = document.getElementById('cli-telefono').value.trim();
 
             if (!cliente.nombre || !cliente.direccion || !cliente.telefono) {
-                alert('Por favor, completa todos los campos del centro o profesional.');
+                alert('Por favor, completa todos los campos para continuar.');
                 return;
             }
             goStep(2);
@@ -297,64 +341,83 @@
             equipoActual = { id, nombre, precioMedio, precioCompleto };
             document.getElementById('eq-seleccionado-nombre').innerText = nombre;
 
-            // Construir opciones de turnos dinámicamente según el equipo
             let htmlOpciones = '';
             
             if (id.toLowerCase().includes('hifu')) {
                 htmlOpciones = `
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Jornada Completa (8 hs)</h6>
                             <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Jornada Completa (08:00 a 16:00 hs)', ${precioCompleto}, 'https://calendly.com/delvalleanaliav79/hifu-jornada-completa')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Mañana</h6>
                             <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Media Jornada Mañana (08:00 a 12:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/hifu-media-jornada')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Tarde</h6>
                             <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Media Jornada Tarde (13:00 a 17:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/hifu-turno-tarde')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                 `;
             } else {
                 htmlOpciones = `
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Jornada Completa (8 hs)</h6>
                             <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Jornada Completa (08:00 a 16:00 hs)', ${precioCompleto}, 'https://calendly.com/delvalleanaliav79/indiba-jornada-completa')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Mañana</h6>
                             <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Media Jornada Mañana (08:00 a 12:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/indiba-media-jornada-1')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
+                            <h6 class="fw-bold mb-1 text-dark">Media Jornada - Tarde</h6>
                             <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
                         </div>
-                        <button onclick="prepararReserva('Media Jornada Tarde (13:00 a 17:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/indiba-turno-tarde')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                 `;
             }
 
             document.getElementById('contenedor-opciones-turnos').innerHTML = htmlOpciones;
-            
-            // Seteamos por defecto la jornada completa para inicializar el subtotal
             prepararReserva('Jornada Completa (08:00 a 16:00 hs)', precioCompleto, '');
             goStep(3);
+
+            // Asignar eventos a los botones generados
+            setTimeout(() => {
+                const botones = document.querySelectorAll('#contenedor-opciones-turnos button');
+                const urls = id.toLowerCase().includes('hifu') ? 
+                    ['https://calendly.com/delvalleanaliav79/hifu-jornada-completa', 'https://calendly.com/delvalleanaliav79/hifu-media-jornada', 'https://calendly.com/delvalleanaliav79/hifu-turno-tarde'] :
+                    ['https://calendly.com/delvalleanaliav79/indiba-jornada-completa', 'https://calendly.com/delvalleanaliav79/indiba-media-jornada-1', 'https://calendly.com/delvalleanaliav79/indiba-turno-tarde'];
+                
+                const horarios = [
+                    'Jornada Completa (08:00 a 16:00 hs)',
+                    'Media Jornada Mañana (08:00 a 12:00 hs)',
+                    'Media Jornada Tarde (13:00 a 17:00 hs)'
+                ];
+                const precios = [precioCompleto, precioMedio, precioMedio];
+
+                botones.forEach((btn, index) => {
+                    btn.onclick = function() {
+                        prepararReserva(horarios[index], precios[index], urls[index]);
+                        reservarFinal(urls[index], horarios[index], precios[index]);
+                    };
+                });
+            }, 50);
         }
 
         function prepararReserva(horario, precioBase, url) {
@@ -362,7 +425,7 @@
             jornadaSeleccionada.precio = precioBase;
             jornadaSeleccionada.urlCalendly = url;
 
-            document.getElementById('label-tipo-jornada').innerText = `Alquiler (${horario.split(' ')[0]}):`;
+            document.getElementById('label-tipo-jornada').innerText = `Alquiler:`;
             document.getElementById('val-precio-equipo').innerText = `$${precioBase.toLocaleString('es-AR')}`;
             calcularTotal();
         }
@@ -378,30 +441,26 @@
             document.getElementById('val-subtotal').innerText = `$${total.toLocaleString('es-AR')}`;
         }
 
-        function reservarTurnoFinal(calendlyUrl) {
+        function reservarFinal(calendlyUrl, horario, precioBase) {
             let incluyeOperadora = document.getElementById('check-operadora').checked;
-            let totalFinal = jornadaSeleccionada.precio + (incluyeOperadora ? precioOperadora : 0);
+            let totalFinal = precioBase + (incluyeOperadora ? precioOperadora : 0);
 
             const mensaje = `*¡Nueva Intención de Reserva!* 📋\n\n` +
                             `🏢 *Centro / Estética:* ${cliente.nombre}\n` +
                             `📍 *Dirección / Lugar:* ${cliente.direccion}\n` +
                             `📞 *Teléfono:* ${cliente.telefono}\n` +
-                            `⚙️ *Equipo:* ${equipoActual.nombre}\n` +
-                            `⏰ *Horario:* ${jornadaSeleccionada.horario}\n` +
+                            `⚙ *Equipo:* ${equipoActual.nombre}\n` +
+                            `⏰ *Horario:* ${horario}\n` +
                             `👩‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí (Incluida)' : 'No'}\n` +
                             `💰 *Subtotal Estimado:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
-                            `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._\n\n` +
-                            `⚠️ *Recordatorio:* Recuerda volver al sitio web para terminar de confirmar la fecha en Calendly.`;
+                            `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._`;
 
-            // Actualizamos la url del botón de reservar con el total calculado
-            const botones = document.querySelectorAll('#contenedor-opciones-turnos button');
-            // Abrir WhatsApp y redirigir
             const urlWp = `https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWp, '_blank');
             
-            if (jornadaSeleccionada.urlCalendly) {
+            if (calendlyUrl) {
                 setTimeout(() => {
-                    window.location.href = jornadaSeleccionada.urlCalendly;
+                    window.location.href = calendlyUrl;
                 }, 500);
             }
         }
