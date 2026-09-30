@@ -1,0 +1,27 @@
+{
+    "config": {
+        "whatsapp_phone": "541161772239",
+        "precio_km_extra": 1500,
+        "limite_km_base": 20,
+        "operadora_precio": 80000,
+        "calendar_id": "gonzalezdelvallesantiago@gmail.com"
+    },
+    "equipos": [
+        {
+            "id": "hifu_22_pro_max",
+            "nombre": "HIFU 22 PRO MAX",
+            "descripcion": "Tratamiento no invasivo que utiliza ultrasonido focalizado de alta intensidad para estimular la producción de colágeno y elastina, logrando un efecto lifting natural, mejorando la firmeza, redefiniendo el óvalo facial y corporal.",
+            "precio_medio_dia": 70000,
+            "precio_dia_completo": 130000,
+            "activo": true
+        },
+        {
+            "id": "indiba",
+            "nombre": "INDIBA",
+            "descripcion": "Tecnología de radiofrecuencia capacitiva y resistiva que estimula los procesos naturales de reparación del tejido, generando calor en profundidad. Activa la circulación, mejora la oxigenación y favorece la producción de colágeno y elastina.",
+            "precio_medio_dia": 45000,
+            "precio_dia_completo": 95000,
+            "activo": true
+        }
+    ]
+}
