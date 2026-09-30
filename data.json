@@ -2,7 +2,7 @@
     "config": {
         "whatsapp_phone": "541161772239",
         "precio_km_extra": 1500,
-        "limite_km_base": 20,
+        "limite_km_base": 10,
         "operadora_precio": 80000,
         "calendar_id": "gonzalezdelvallesantiago@gmail.com"
     },

@@ -229,9 +229,9 @@
                         <input type="text" id="cli-direccion" class="form-control" placeholder="Ej: Av. Las Magnolias 1234, Pilar">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold text-secondary small text-uppercase">Distancia Aprox. (KM)</label>
+                        <label class="form-label fw-semibold text-secondary small text-uppercase">Distancia desde Pilar Centro (KM)</label>
                         <input type="number" id="cli-km" class="form-control" value="0" min="0" onchange="calcularTotal()" placeholder="Ej: 15">
-                        <small class="text-muted" style="font-size: 0.7rem;">Base de {{ config.limite_km_base }} km sin cargo</small>
+                        <small class="text-muted" style="font-size: 0.7rem;">Primeros {{ config.limite_km_base }} km sin cargo</small>
                     </div>
                 </div>
                 <div class="mb-4">
@@ -289,7 +289,7 @@
                     </div>
                     
                     <div class="d-flex justify-content-between mb-2 small">
-                        <span class="text-muted">Cargos por traslado (<span id="txt-km-info">0</span> km):</span>
+                        <span class="text-muted">Traslado (<span id="txt-km-info">0</span> km desde Pilar):</span>
                         <span class="fw-semibold text-dark" id="val-precio-km">$0</span>
                     </div>
 
@@ -424,7 +424,6 @@
         }
 
         function calcularTotal() {
-            // Actualizar km en tiempo real por si el usuario lo edita en el input del paso 1
             cliente.km = parseFloat(document.getElementById('cli-km').value) || 0;
             
             let costoKm = calcularCostoKm();
@@ -443,12 +442,12 @@
 
             const mensaje = `*¡Nueva Intención de Reserva!* 📋\n\n` +
                             `🏢 *Centro / Estética:* ${cliente.nombre}\n` +
-                            `📍 *Dirección:* ${cliente.direccion} (${cliente.km} km)\n` +
+                            `📍 *Dirección:* ${cliente.direccion} (${cliente.km} km desde Pilar Centro)\n` +
                             `📞 *Teléfono:* ${cliente.telefono}\n` +
                             `⚙ *Equipo:* ${equipoActual.nombre}\n` +
                             `⏰ *Horario:* ${horario}\n` +
-                            `🚗 *Traslado (${cliente.km} km):* ${costoKm > 0 ? '$' + costoKm.toLocaleString('es-AR') : 'Sin cargo'}\n` +
-                            `👩‍‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí ($' + precioOperadora.toLocaleString('es-AR') + ')' : 'No'}\n` +
+                            `🚗 *Traslado (${cliente.km} km):* ${costoKm > 0 ? '$' + costoKm.toLocaleString('es-AR') : 'Sin cargo (hasta 10km)'}\n` +
+                            `👩‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí ($' + precioOperadora.toLocaleString('es-AR') + ')' : 'No'}\n` +
                             `💰 *Subtotal Total:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
                             `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._`;
 
