@@ -449,7 +449,7 @@
                             `🚗 *Traslado (${cliente.km} km):* ${costoKm > 0 ? '$' + costoKm.toLocaleString('es-AR') : 'Sin cargo (hasta 10km)'}\n` +
                             `👩‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí ($' + precioOperadora.toLocaleString('es-AR') + ')' : 'No'}\n` +
                             `💰 *Subtotal Total:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
-                            `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._`;
+                            `Para terminar de reservar tu fecha volve a la pagina y confirmalo en candly`;
 
             const urlWp = `https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWp, '_blank');
