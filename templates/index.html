@@ -222,32 +222,32 @@
                 <h4 class="step-title"><i class="bi bi-calendar-check-fill"></i> Paso 3: Elegí tu Turno para <span id="eq-seleccionado-nombre" style="color: #a86f63;"></span></h4>
                 <p class="text-muted mb-4">Al hacer clic en "Reservar", enviaremos tus datos al WhatsApp y te redirigiremos a Calendly para seleccionar la fecha exacta.</p>
                 
-                <!-- Opciones HIFU -->
-                <div id="opciones-hifu" class="d-none">
+                <!-- Opciones HIFU 22 Pro Max -->
+                <div id="opciones-hifu_22_pro_max" class="d-none">
                     <div class="turno-opcion">
                         <div>
                             <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
                             <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
                         </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-jornada-completa', 'Hifu - Jornada Completa (08:00 a 16:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-jornada-completa', 'HIFU 22 Pro Max - Jornada Completa (08:00 a 16:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
                             <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
                             <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
                         </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-media-jornada', 'Hifu - Media Jornada Mañana (08:00 a 12:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-media-jornada', 'HIFU 22 Pro Max - Media Jornada Mañana (08:00 a 12:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                     <div class="turno-opcion">
                         <div>
                             <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
                             <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
                         </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-turno-tarde', 'Hifu - Media Jornada Tarde (13:00 a 17:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-turno-tarde', 'HIFU 22 Pro Max - Media Jornada Tarde (13:00 a 17:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
                     </div>
                 </div>
 
-                <!-- Opciones INDRIBA -->
+                <!-- Opciones INDIBA -->
                 <div id="opciones-indiba" class="d-none">
                     <div class="turno-opcion">
                         <div>
@@ -305,13 +305,15 @@
         function verTurnos(id, nombre) {
             document.getElementById('eq-seleccionado-nombre').innerText = nombre;
             
-            document.getElementById('opciones-hifu').classList.add('d-none');
+            // Ocultamos todas las opciones de turnos primero
+            document.getElementById('opciones-hifu_22_pro_max').classList.add('d-none');
             document.getElementById('opciones-indiba').classList.add('d-none');
 
-            if (id.toLowerCase().includes('hifu')) {
-                document.getElementById('opciones-hifu').classList.remove('d-none');
-            } else {
-                document.getElementById('opciones-indiba').classList.remove('d-none');
+            // Mostramos dinámicamente según el ID del equipo recibido
+            const contenedorId = 'opciones-' + id;
+            const elementoContenedor = document.getElementById(contenedorId);
+            if (elementoContenedor) {
+                elementoContenedor.classList.remove('d-none');
             }
 
             goStep(3);
@@ -323,11 +325,12 @@
                             `📍 *Dirección / Lugar:* ${cliente.direccion}\n` +
                             `📞 *Teléfono:* ${cliente.telefono}\n` +
                             `⚙️ *Equipo y Horario:* ${turnoInfo}\n\n` +
-                            `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._`;
+                            `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._\n\n` +
+                            `⚠️ *Recordatorio:* Recuerda volver al sitio web para terminar de confirmar la fecha en Calendly.`;
 
             const urlWp = `https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensaje)}`;
             
-            // 1. Abre WhatsApp en segundo plano/pestaña nueva con los datos
+            // 1. Abre WhatsApp en una pestaña nueva con el mensaje completo
             window.open(urlWp, '_blank');
             
             // 2. Redirige la pantalla actual a Calendly tras 500 milisegundos

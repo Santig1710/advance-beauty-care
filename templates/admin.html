@@ -3,125 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrador | Advance Beauty Care</title>
+    <title>Panel de Administración | Advance Beauty Care</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #fdfbf7; font-family: 'Plus Jakarta Sans', sans-serif; color: #2c2c2c; }
+        .admin-header { background: #2c2c2c; color: #fff; padding: 2rem 1rem; border-bottom: 4px solid #a86f63; }
+        .card-admin { border-radius: 16px; border: none; box-shadow: 0 8px 25px rgba(168, 111, 99, 0.08); background: #ffffff; }
+        .btn-custom { background: #a86f63; color: white; border: none; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 10px; }
+        .btn-custom:hover { background: #8c584d; color: white; }
+    </style>
 </head>
-<body class="bg-light" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+<body>
 
-    <div class="container my-5" style="max-width: 950px;">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold text-dark mb-0"><i class="bi bi-sliders"></i> Panel Administrador de Precios y Configuración</h2>
-            <a href="/" class="btn btn-outline-dark" target="_blank"><i class="bi bi-eye-fill"></i> Ver Vista Clientes</a>
-        </div>
-
-        <!-- Sección de Configuración General y Calendar ID -->
-        <div class="card p-4 shadow-sm mb-4 border-0 rounded-4">
-            <h4 class="mb-3 text-secondary"><i class="bi bi-gear-wide-connected"></i> Reglas, Flete y Google Calendar</h4>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">WhatsApp de Contacto:</label>
-                    <input type="text" id="conf-wp" class="form-control" value="{{ config.whatsapp_phone }}">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">Km Base Bonificados:</label>
-                    <input type="number" id="conf-base-km" class="form-control" value="{{ config.limite_km_base }}">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">Precio por Km Extra ($):</label>
-                    <input type="number" id="conf-precio-km" class="form-control" value="{{ config.precio_km_extra }}">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label fw-semibold">Precio Operadora ($):</label>
-                    <input type="number" id="conf-operadora" class="form-control" value="{{ config.operadora_precio }}">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label fw-semibold">Calendar ID (Google Calendar):</label>
-                    <input type="text" id="conf-calendar-id" class="form-control" value="{{ config.calendar_id }}" placeholder="ejemplo@group.calendar.google.com">
-                </div>
-            </div>
-        </div>
-
-        <!-- Sección de Precios de Equipos -->
-        <div class="card p-4 shadow-sm mb-4 border-0 rounded-4">
-            <h4 class="mb-3 text-secondary"><i class="bi bi-box-seam-fill"></i> Precios de Equipos</h4>
-            <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th>Equipo</th>
-                            <th>Media Jornada - 4hs ($)</th>
-                            <th>Jornada Completa - 8hs ($)</th>
-                            <th>Activo</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-equipos">
-                        {% for eq in equipos %}
-                        <tr data-id="{{ eq.id }}">
-                            <td>
-                                <strong>{{ eq.nombre }}</strong>
-                                <input type="hidden" class="eq-nombre" value="{{ eq.nombre }}">
-                                <input type="hidden" class="eq-desc" value="{{ eq.descripcion }}">
-                            </td>
-                            <td><input type="number" class="form-control eq-medio" value="{{ eq.precio_medio_dia }}"></td>
-                            <td><input type="number" class="form-control eq-completo" value="{{ eq.precio_dia_completo }}"></td>
-                            <td>
-                                <input type="checkbox" class="form-check-input eq-activo" {% if eq.activo %}checked{% endif %}>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <button class="btn btn-success btn-lg w-100 fw-bold py-3 rounded-3 shadow" onclick="guardarCambios()">
-            <i class="bi bi-floppy-fill"></i> Guardar Todos los Cambios
-        </button>
+    <div class="admin-header text-center">
+        <h2 class="fw-bold mb-1"><i class="bi bi-sliders"></i> Panel de Control - Advance Beauty Care</h2>
+        <p class="text-white-50 mb-0">Modificá parámetros generales, costos de traslado, operadora y equipos en tiempo real</p>
     </div>
 
-    <script>
-        function guardarCambios() {
-            let config = {
-                whatsapp_phone: document.getElementById('conf-wp').value,
-                limite_km_base: parseFloat(document.getElementById('conf-base-km').value) || 0,
-                precio_km_extra: parseFloat(document.getElementById('conf-precio-km').value) || 0,
-                operadora_precio: parseFloat(document.getElementById('conf-operadora').value) || 0,
-                calendar_id: document.getElementById('conf-calendar-id').value.trim()
-            };
+    <div class="container my-5" style="max-width: 850px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="/" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Ver Sitio Web</a>
+        </div>
 
-            let equipos = [];
-            document.querySelectorAll('#lista-equipos tr').forEach(row => {
-                equipos.push({
-                    id: row.getAttribute('data-id'),
-                    nombre: row.querySelector('.eq-nombre').value,
-                    descripcion: row.querySelector('.eq-desc').value,
-                    precio_medio_dia: parseFloat(row.querySelector('.eq-medio').value) || 0,
-                    precio_dia_completo: parseFloat(row.querySelector('.eq-completo').value) || 0,
-                    activo: row.querySelector('.eq-activo').checked
-                });
-            });
+        <div class="card card-admin p-4 p-md-5">
+            <form action="/admin/actualizar" method="POST">
+                
+                <!-- CONFIGURACIÓN GENERAL -->
+                <h4 class="fw-bold mb-3 text-secondary"><i class="bi bi-gear-fill"></i> Configuración General y Costos</h4>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Número de WhatsApp:</label>
+                        <input type="text" name="whatsapp_phone" class="form-control" value="{{ config.whatsapp_phone }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">ID de Calendario:</label>
+                        <input type="text" name="calendar_id" class="form-control" value="{{ config.calendar_id }}" required>
+                    </div>
+                </div>
 
-            fetch('/api/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ config, equipos })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    alert('¡Configuración y precios guardados correctamente!');
-                    location.reload();
-                } else {
-                    alert('Hubo un error al guardar los datos.');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error de conexión al intentar guardar.');
-            });
-        }
-    </script>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Precio KM Extra ($):</label>
+                        <input type="number" step="any" name="precio_km_extra" class="form-control" value="{{ config.precio_km_extra }}" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Límite KM Base:</label>
+                        <input type="number" step="any" name="limite_km_base" class="form-control" value="{{ config.limite_km_base }}" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Precio Operadora ($):</label>
+                        <input type="number" step="any" name="operadora_precio" class="form-control" value="{{ config.operadora_precio }}" required>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- GESTIÓN DE EQUIPOS -->
+                <h4 class="fw-bold mb-4 text-secondary"><i class="bi bi-cpu-fill"></i> Gestión de Equipos</h4>
+
+                {% for eq in equipos %}
+                <div class="p-4 mb-4 border rounded-3 bg-light position-relative">
+                    
+                    <!-- Switch de Activo / Inactivo -->
+                    <div class="form-check form-switch position-absolute top-0 end-0 mt-3 me-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="activo_{{ eq.id }}" name="activo_{{ eq.id }}" {% if eq.activo %}checked{% endif %}>
+                        <label class="form-check-label fw-semibold small text-muted" for="activo_{{ eq.id }}">Visible en Web</label>
+                    </div>
+
+                    <h5 class="fw-bold text-dark mb-3">ID: <span class="text-uppercase text-danger">{{ eq.id }}</span></h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nombre del Equipo:</label>
+                        <input type="text" name="nombre_{{ eq.id }}" class="form-control" value="{{ eq.nombre }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Descripción:</label>
+                        <textarea name="descripcion_{{ eq.id }}" class="form-control" rows="3" required>{{ eq.descripcion }}</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Precio Media Jornada ($):</label>
+                            <input type="number" step="any" name="precio_medio_{{ eq.id }}" class="form-control" value="{{ eq.precio_medio_dia }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Precio Jornada Completa ($):</label>
+                            <input type="number" step="any" name="precio_completo_{{ eq.id }}" class="form-control" value="{{ eq.precio_dia_completo }}" required>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-custom w-100 py-3 mt-3">
+                    <i class="bi bi-save-fill"></i> Guardar Todos los Cambios
+                </button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>
