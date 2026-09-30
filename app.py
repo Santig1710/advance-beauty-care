@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -43,6 +43,29 @@ def index():
     config = data.get('config', {})
     equipos = data.get('equipos', [])
     return render_template('index.html', config=config, equipos=equipos)
+
+# --- NUEVA RUTA: Panel de Administración ---
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    data = load_data()
+    if request.method == 'POST':
+        # Actualizar el calendar_id u otros campos enviados desde admin.html
+        calendar_id = request.form.get('calendar_id')
+        if calendar_id:
+            if 'config' not in data:
+                data['config'] = {}
+            data['config']['calendar_id'] = calendar_id
+        
+        # Guardar los cambios de vuelta en data.json
+        try:
+            with open('data.json', 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+        except Exception as e:
+            print(f"Error guardando data.json: {e}")
+            
+        return redirect(url_for('admin'))
+        
+    return render_template('admin.html', data=data)
 
 # Endpoint para consultar turnos ocupados
 @app.route('/api/availability', methods=['GET'])

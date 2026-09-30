@@ -12,32 +12,38 @@
 
     <div class="container my-5" style="max-width: 950px;">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold text-dark mb-0"><i class="bi bi-sliders"></i> Panel Administrador de Precios</h2>
+            <h2 class="fw-bold text-dark mb-0"><i class="bi bi-sliders"></i> Panel Administrador de Precios y Configuración</h2>
             <a href="/" class="btn btn-outline-dark" target="_blank"><i class="bi bi-eye-fill"></i> Ver Vista Clientes</a>
         </div>
 
+        <!-- Sección de Configuración General y Calendar ID -->
         <div class="card p-4 shadow-sm mb-4 border-0 rounded-4">
-            <h4 class="mb-3 text-secondary"><i class="bi bi-gear-wide-connected"></i> Reglas de Flete y Adicionales (desde Pilar, Bs.As.)</h4>
+            <h4 class="mb-3 text-secondary"><i class="bi bi-gear-wide-connected"></i> Reglas, Flete y Google Calendar</h4>
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label fw-semibold">WhatsApp de Contacto:</label>
                     <input type="text" id="conf-wp" class="form-control" value="{{ config.whatsapp_phone }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label fw-semibold">Km Base Bonificados:</label>
                     <input type="number" id="conf-base-km" class="form-control" value="{{ config.limite_km_base }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label fw-semibold">Precio por Km Extra ($):</label>
                     <input type="number" id="conf-precio-km" class="form-control" value="{{ config.precio_km_extra }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label class="form-label fw-semibold">Precio Operadora ($):</label>
                     <input type="number" id="conf-operadora" class="form-control" value="{{ config.operadora_precio }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Calendar ID (Google Calendar):</label>
+                    <input type="text" id="conf-calendar-id" class="form-control" value="{{ config.calendar_id }}" placeholder="ejemplo@group.calendar.google.com">
                 </div>
             </div>
         </div>
 
+        <!-- Sección de Precios de Equipos -->
         <div class="card p-4 shadow-sm mb-4 border-0 rounded-4">
             <h4 class="mb-3 text-secondary"><i class="bi bi-box-seam-fill"></i> Precios de Equipos</h4>
             <div class="table-responsive">
@@ -70,7 +76,9 @@
             </div>
         </div>
 
-        <button class="btn btn-success btn-lg w-100 fw-bold py-3 rounded-3" onclick="guardarCambios()"><i class="bi bi-floppy-fill"></i> Guardar Todos los Cambios</button>
+        <button class="btn btn-success btn-lg w-100 fw-bold py-3 rounded-3 shadow" onclick="guardarCambios()">
+            <i class="bi bi-floppy-fill"></i> Guardar Todos los Cambios
+        </button>
     </div>
 
     <script>
@@ -79,7 +87,8 @@
                 whatsapp_phone: document.getElementById('conf-wp').value,
                 limite_km_base: parseFloat(document.getElementById('conf-base-km').value) || 0,
                 precio_km_extra: parseFloat(document.getElementById('conf-precio-km').value) || 0,
-                operadora_precio: parseFloat(document.getElementById('conf-operadora').value) || 0
+                operadora_precio: parseFloat(document.getElementById('conf-operadora').value) || 0,
+                calendar_id: document.getElementById('conf-calendar-id').value.trim()
             };
 
             let equipos = [];
@@ -100,8 +109,18 @@
                 body: JSON.stringify({ config, equipos })
             })
             .then(res => res.json())
-            .then(data => alert('¡Precios y configuración guardados correctamente!'))
-            .catch(err => alert('Error al guardar los datos'));
+            .then(data => {
+                if(data.status === 'success') {
+                    alert('¡Configuración y precios guardados correctamente!');
+                    location.reload();
+                } else {
+                    alert('Hubo un error al guardar los datos.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Error de conexión al intentar guardar.');
+            });
         }
     </script>
 </body>
