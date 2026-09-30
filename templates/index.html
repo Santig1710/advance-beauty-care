@@ -102,10 +102,19 @@
             background-color: #fdf5f3;
             color: var(--primary-color);
             font-weight: 700;
-            padding: 0.4rem 0.9rem;
+            padding: 0.4rem 0.9ln;
             border-radius: 12px;
             font-size: 1rem;
             border: 1px solid #f3ded7;
+        }
+
+        /* Subtotal Box */
+        .resumen-box {
+            background: #f9f4f1;
+            border: 1.5px solid #e8deda;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 25px;
         }
 
         /* Buttons */
@@ -132,7 +141,7 @@
         }
 
         .turno-opcion {
-            background: #fcf8f6;
+            background: #ffffff;
             border: 1.5px solid #f0e6e2;
             border-radius: 12px;
             padding: 15px;
@@ -204,7 +213,7 @@
                                     <span class="small text-secondary">Jornada Completa (8 hs):</span>
                                     <span class="price-tag">${{ "{:,.0f}".format(eq.precio_dia_completo) }}</span>
                                 </div>
-                                <button class="btn btn-custom w-100" onclick="verTurnos('{{ eq.id }}', '{{ eq.nombre }}')">
+                                <button class="btn btn-custom w-100" onclick="seleccionarEquipo('{{ eq.id }}', '{{ eq.nombre }}', {{ eq.precio_medio_dia }}, {{ eq.precio_dia_completo }})">
                                     Elegir Horarios <i class="bi bi-arrow-right-short"></i>
                                 </button>
                             </div>
@@ -217,59 +226,38 @@
                 </div>
             </div>
 
-            <!-- PASO 3: Selección de Turnos (WhatsApp + Redirección a Calendly) -->
+            <!-- PASO 3: Selección de Turnos, Subtotal y Redirección a Calendly -->
             <div id="step-3" class="d-none">
-                <h4 class="step-title"><i class="bi bi-calendar-check-fill"></i> Paso 3: Elegí tu Turno para <span id="eq-seleccionado-nombre" style="color: #a86f63;"></span></h4>
-                <p class="text-muted mb-4">Al hacer clic en "Reservar", enviaremos tus datos al WhatsApp y te redirigiremos a Calendly para seleccionar la fecha exacta.</p>
+                <h4 class="step-title"><i class="bi bi-calendar-check-fill"></i> Paso 3: Turnos y Subtotal para <span id="eq-seleccionado-nombre" style="color: #a86f63;"></span></h4>
                 
-                <!-- Opciones HIFU 22 Pro Max -->
-                <div id="opciones-hifu_22_pro_max" class="d-none">
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
-                        </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-jornada-completa', 'HIFU 22 Pro Max - Jornada Completa (08:00 a 16:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                <!-- Caja de Desglose y Subtotal -->
+                <div class="resumen-box">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-receipt"></i> Desglose de Cargos</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted" id="label-tipo-jornada">Alquiler de equipo:</span>
+                        <span class="fw-semibold" id="val-precio-equipo">$0</span>
                     </div>
-                    <div class="turno-opcion">
+                    <div class="d-flex justify-content-between mb-2 align-items-center">
                         <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
+                            <span class="text-muted">¿Incluir Operadora profesional?</span>
+                            <small class="d-block text-secondary">(${{"{:,.0f}".format(config.operadora_precio)}})</small>
                         </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-media-jornada', 'HIFU 22 Pro Max - Media Jornada Mañana (08:00 a 12:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="check-operadora" onchange="calcularTotal()">
+                        </div>
                     </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
-                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
-                        </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/hifu-turno-tarde', 'HIFU 22 Pro Max - Media Jornada Tarde (13:00 a 17:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold fs-5 text-dark">Subtotal Estimado:</span>
+                        <span class="fw-bold fs-4" style="color: var(--primary-color);" id="val-subtotal">$0</span>
                     </div>
                 </div>
 
-                <!-- Opciones INDIBA -->
-                <div id="opciones-indiba" class="d-none">
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
-                        </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/indiba-jornada-completa', 'Indiba - Jornada Completa (08:00 a 16:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
-                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
-                        </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/indiba-media-jornada-1', 'Indiba - Media Jornada Mañana (08:00 a 12:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
-                    <div class="turno-opcion">
-                        <div>
-                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
-                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
-                        </div>
-                        <button onclick="reservarTurno('https://calendly.com/delvalleanaliav79/indiba-turno-tarde', 'Indiba - Media Jornada Tarde (13:00 a 17:00 hs)')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
-                    </div>
+                <p class="text-muted mb-4">Elige la modalidad horaria deseada. Al hacer clic en "Reservar", enviaremos este resumen por WhatsApp y te redirigiremos a Calendly.</p>
+                
+                <!-- Contenedor dinámico de opciones según equipo -->
+                <div id="contenedor-opciones-turnos">
+                    <!-- Las opciones se inyectan dinámicamente -->
                 </div>
 
                 <div class="mt-4">
@@ -282,7 +270,10 @@
 
     <script>
         let cliente = { nombre: '', direccion: '', telefono: '' };
+        let equipoActual = { id: '', nombre: '', precioMedio: 0, precioCompleto: 0 };
+        let jornadaSeleccionada = { tipo: '', precio: 0, horario: '', urlCalendly: '' };
         const whatsappDestino = "{{ config.whatsapp_phone }}";
+        const precioOperadora = {{ config.operadora_precio }};
 
         function goStep(step) {
             document.getElementById('step-1').classList.toggle('d-none', step !== 1);
@@ -302,41 +293,117 @@
             goStep(2);
         }
 
-        function verTurnos(id, nombre) {
+        function seleccionarEquipo(id, nombre, precioMedio, precioCompleto) {
+            equipoActual = { id, nombre, precioMedio, precioCompleto };
             document.getElementById('eq-seleccionado-nombre').innerText = nombre;
-            
-            // Ocultamos todas las opciones de turnos primero
-            document.getElementById('opciones-hifu_22_pro_max').classList.add('d-none');
-            document.getElementById('opciones-indiba').classList.add('d-none');
 
-            // Mostramos dinámicamente según el ID del equipo recibido
-            const contenedorId = 'opciones-' + id;
-            const elementoContenedor = document.getElementById(contenedorId);
-            if (elementoContenedor) {
-                elementoContenedor.classList.remove('d-none');
+            // Construir opciones de turnos dinámicamente según el equipo
+            let htmlOpciones = '';
+            
+            if (id.toLowerCase().includes('hifu')) {
+                htmlOpciones = `
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
+                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Jornada Completa (08:00 a 16:00 hs)', ${precioCompleto}, 'https://calendly.com/delvalleanaliav79/hifu-jornada-completa')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
+                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Media Jornada Mañana (08:00 a 12:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/hifu-media-jornada')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
+                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Media Jornada Tarde (13:00 a 17:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/hifu-turno-tarde')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                `;
+            } else {
+                htmlOpciones = `
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Jornada Completa (8 hs)</h6>
+                            <p class="small text-muted mb-0">De 08:00 a 16:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Jornada Completa (08:00 a 16:00 hs)', ${precioCompleto}, 'https://calendly.com/delvalleanaliav79/indiba-jornada-completa')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Media Jornada - Mañana</h6>
+                            <p class="small text-muted mb-0">De 08:00 a 12:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Media Jornada Mañana (08:00 a 12:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/indiba-media-jornada-1')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                    <div class="turno-opcion">
+                        <div>
+                            <h6 class="fw-bold mb-1">Media Jornada - Tarde</h6>
+                            <p class="small text-muted mb-0">De 13:00 a 17:00 hs</p>
+                        </div>
+                        <button onclick="prepararReserva('Media Jornada Tarde (13:00 a 17:00 hs)', ${precioMedio}, 'https://calendly.com/delvalleanaliav79/indiba-turno-tarde')" class="btn btn-custom">Reservar <i class="bi bi-whatsapp"></i></button>
+                    </div>
+                `;
             }
 
+            document.getElementById('contenedor-opciones-turnos').innerHTML = htmlOpciones;
+            
+            // Seteamos por defecto la jornada completa para inicializar el subtotal
+            prepararReserva('Jornada Completa (08:00 a 16:00 hs)', precioCompleto, '');
             goStep(3);
         }
 
-        function reservarTurno(calendlyUrl, turnoInfo) {
+        function prepararReserva(horario, precioBase, url) {
+            jornadaSeleccionada.horario = horario;
+            jornadaSeleccionada.precio = precioBase;
+            jornadaSeleccionada.urlCalendly = url;
+
+            document.getElementById('label-tipo-jornada').innerText = `Alquiler (${horario.split(' ')[0]}):`;
+            document.getElementById('val-precio-equipo').innerText = `$${precioBase.toLocaleString('es-AR')}`;
+            calcularTotal();
+        }
+
+        function calcularTotal() {
+            let total = jornadaSeleccionada.precio;
+            let incluyeOperadora = document.getElementById('check-operadora').checked;
+
+            if (incluyeOperadora) {
+                total += precioOperadora;
+            }
+
+            document.getElementById('val-subtotal').innerText = `$${total.toLocaleString('es-AR')}`;
+        }
+
+        function reservarTurnoFinal(calendlyUrl) {
+            let incluyeOperadora = document.getElementById('check-operadora').checked;
+            let totalFinal = jornadaSeleccionada.precio + (incluyeOperadora ? precioOperadora : 0);
+
             const mensaje = `*¡Nueva Intención de Reserva!* 📋\n\n` +
                             `🏢 *Centro / Estética:* ${cliente.nombre}\n` +
                             `📍 *Dirección / Lugar:* ${cliente.direccion}\n` +
                             `📞 *Teléfono:* ${cliente.telefono}\n` +
-                            `⚙️ *Equipo y Horario:* ${turnoInfo}\n\n` +
+                            `⚙️ *Equipo:* ${equipoActual.nombre}\n` +
+                            `⏰ *Horario:* ${jornadaSeleccionada.horario}\n` +
+                            `👩‍⚕️ *Operadora:* ${incluyeOperadora ? 'Sí (Incluida)' : 'No'}\n` +
+                            `💰 *Subtotal Estimado:* $${totalFinal.toLocaleString('es-AR')}\n\n` +
                             `_El cliente fue redirigido a Calendly para confirmar su fecha exacta._\n\n` +
                             `⚠️ *Recordatorio:* Recuerda volver al sitio web para terminar de confirmar la fecha en Calendly.`;
 
+            // Actualizamos la url del botón de reservar con el total calculado
+            const botones = document.querySelectorAll('#contenedor-opciones-turnos button');
+            // Abrir WhatsApp y redirigir
             const urlWp = `https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensaje)}`;
-            
-            // 1. Abre WhatsApp en una pestaña nueva con el mensaje completo
             window.open(urlWp, '_blank');
             
-            // 2. Redirige la pantalla actual a Calendly tras 500 milisegundos
-            setTimeout(() => {
-                window.location.href = calendlyUrl;
-            }, 500);
+            if (jornadaSeleccionada.urlCalendly) {
+                setTimeout(() => {
+                    window.location.href = jornadaSeleccionada.urlCalendly;
+                }, 500);
+            }
         }
     </script>
 </body>
